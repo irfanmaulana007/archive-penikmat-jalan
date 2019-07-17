@@ -1,0 +1,88 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#content {
+  min-height: 700px;
+  padding: 76px 20px 20px;
+}
+
+.row {
+  margin: 0!important;
+}
+
+.navbar-nav {
+  display: inline-block!important;
+}
+
+.bg-grey {
+  background-color: #22262a!important;
+}
+
+button {
+  border-radius: 100px!important;
+  transition: .2s!important;
+}
+
+button:hover {
+  filter: brightness(.8);
+}
+
+textarea {
+  resize: none!important;
+}
+
+.react-datepicker-wrapper, .react-datepicker__input-container {
+  width: 100%;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+table {
+  min-width: 600px;
+}
+
+.nav-tabs .active .nav-link{
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.img-hover:hover {
+  border-color: #666;
+  cursor: pointer;
+  transition: .4s ease;
+}
+
+/* Breadcumb */
+/* Style the list */
+ul.breadcrumb {
+  padding: 10px 16px;
+  list-style: none;
+  background-color: #fff;
+  margin: 0;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px 2px 8px 8px;
+  color: black;
+  content: "<\00a0";
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li a:hover {
+  color: #01447e;
+}
