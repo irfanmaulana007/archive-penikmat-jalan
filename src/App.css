@@ -8,7 +8,6 @@ body {
 
 #content {
   min-height: 700px;
-  padding: 76px 20px 20px;
 }
 
 .row {
@@ -58,6 +57,15 @@ table {
   border-color: #666;
   cursor: pointer;
   transition: .4s ease;
+}
+
+.p-content {
+  padding-left: 60px!important;
+  padding-right: 60px!important;
+}
+
+.card-deck {
+  height: 100%;
 }
 
 /* Breadcumb */

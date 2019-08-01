@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route, Switch } from "react-router-dom"
+import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 
 // Styles
 import './App.css'
@@ -39,11 +39,16 @@ class App extends Component {
 				<Loaders display={this.state.loaders} message={this.state.message} />
 				<div className="h-100">
 					<Navigation />
-
-      				<Switch>
-						<Route exact path="/" component={Home} />
-						<Route path="*" component={NotFound} />
-					</Switch>
+					
+					<div id="content" className="pt-nav">
+						<Switch>
+							<Redirect exact from="/" to="/home" />
+							<Route exact path="/home" component={Home} />
+							<Route exact path="/gallery" component={Gallery} />
+							<Route path="/gallery/:id" component={GalleryDetail} />
+							<Route path="*" component={NotFound} />
+						</Switch>
+					</div>
 
 					<br/><br/>
 					<Footer />

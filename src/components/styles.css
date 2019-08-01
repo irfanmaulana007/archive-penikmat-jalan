@@ -3,9 +3,13 @@
 	width: 100%;
 }
 
-nav{
-	background-color: #22262a!important;
+nav {
+	background-color: #000000!important;
+	color: #fff;
 }
+nav .navbar-brand { font-size: 18px; }
+nav a {	color: #aaa; transition: .3s; }
+nav a:hover, nav a.active {	color: #fff; }
 
 a:hover {
 	text-decoration: none!important;

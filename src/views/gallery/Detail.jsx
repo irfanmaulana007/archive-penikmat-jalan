@@ -1,16 +1,46 @@
 import React, { Component } from 'react'
 import { Route, Link, NavLink } from "react-router-dom"
+import Moment from 'react-moment'
+import _ from 'lodash'
+
+import { galleryService } from './../../common/api.service'
 
 // Components
 import GalleryDetailPhotos from './Photos'
 import GalleryDetailVideos from './Videos'
 
 class Gallery extends Component {
+	constructor (props) {
+		super(props)
+		this.state = {
+			id: this.props.match.params.id,
+			gallery: {
+				participant: []
+			}
+		}
+	}
+
+	galleryList = () => {
+		galleryService.detail(this.state.id)
+		.then((res) => {
+			// convert participant of gallery into array with commas ',' separator
+			const gallery = res.data
+			gallery.participant = _.split(gallery.participant, ',')
+			this.setState({ gallery: gallery })
+		})
+	}
+
+	componentDidMount () {
+		this.galleryList()
+	}
+
 	render () {
 		const { match } = this.props
+		let { gallery } = this.state
+
 		return (
 			<div>
-				<div id="content" className="pt-nav">
+				<div id="detail" className="pt-5 p-content">
 					<ul className="breadcrumb">
 						<li><Link to ='/gallery'>&#60; Gallery Detail</Link></li>
 						<li>Pulau Kotok</li>
@@ -18,7 +48,7 @@ class Gallery extends Component {
 					<hr/>
 					<div className="row">
 						<div className="col">
-							<h3>Kotok Island</h3>
+							<h3>{gallery.destination}</h3>
 						</div>
 					</div>
 					<div className="row">
@@ -26,19 +56,14 @@ class Gallery extends Component {
 							<img src="https://www.jejakpiknik.com/wp-content/uploads/2017/07/pulaukotok1-630x380.jpg" className="img-thumbnail" alt="" width="100%"/>
 						</div>
 						<div className="col-7">
-							<h6>Date: <b>22 June 2019</b></h6>
+							<h6>Date: <b><Moment format="DD MMMM YYYY">{gallery.date}</Moment></b></h6>
 							<h6>Participant:</h6>
 							<ul>
-								<li>Adi (cukong)</li>
-								<li>Ali</li>
-								<li>Chusnul</li>
-								<li>Fadjrin</li>
-								<li>Fakhri (fafa)</li>
-								<li>Irfan (gembel)</li>
-								<li>Joko</li>
-								<li>Kemal</li>
-								<li>Naila</li>
+								{gallery.participant.map((participant, key) => 
+									<li key={key}>{participant}</li>
+								)}
 							</ul>
+							<p>{gallery.description}</p>
 
 						</div>
 					</div>
