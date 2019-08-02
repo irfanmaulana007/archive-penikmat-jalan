@@ -21,7 +21,7 @@ class Gallery extends Component {
 			const gallery = _
 				.chain(res.data)
 				.map((o) => {
-					o.participant = _.split(o.participant, ',')
+					o.participant = _.sortBy(_.split(o.participant, ','))
 					return o
 				})
 				.value()

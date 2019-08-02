@@ -44,6 +44,7 @@ class App extends Component {
 						<Switch>
 							<Redirect exact from="/" to="/home" />
 							<Route exact path="/home" component={Home} />
+							<Route exact path="/login" component={Login} />
 							<Route exact path="/gallery" component={Gallery} />
 							<Route path="/gallery/:id" component={GalleryDetail} />
 							<Route path="*" component={NotFound} />
