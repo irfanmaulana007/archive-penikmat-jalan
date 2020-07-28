@@ -3,28 +3,13 @@
 	width: 100%;
 }
 
-nav {
-	background-color: #000000!important;
-	color: #fff;
-}
-nav .navbar-brand { font-size: 18px; }
-nav a {	color: #aaa; transition: .3s; }
-nav a:hover, nav a.active {	color: #fff; }
+/* Common */
 
 a:hover {
 	text-decoration: none!important;
 }
 a.no-hover:hover{
 	color: rgba(255,255,255,.5)!important;
-}
-
-footer {
-	height: 56px;
-	line-height: 56px;
-	font-size: small;
-	text-align: center;
-	background-color: #22262a!important;
-	color: white;
 }
 
 a:focus {
@@ -34,6 +19,26 @@ a:focus {
 .h-100 {
 	height: 100%;
 }
+
+.btn-wide { padding: 6px 32px!important; }
+
+.border-radius-0 { border-radius: 0!important; }
+.border-radius-tl-0 { border-top-left-radius: 0!important; }
+.border-radius-tr-0 { border-top-right-radius: 0!important; }
+.border-radius-bl-0 { border-bottom-left-radius: 0!important; }
+.border-radius-br-0 { border-bottom-right-radius: 0!important; }
+
+/* End of Common */
+
+/* Navigation */
+nav {
+	background-color: #000000!important;
+	color: #fff;
+}
+nav .navbar-brand { font-size: 18px; }
+nav a {	color: #aaa; transition: .3s; }
+nav a:hover, nav a.active {	color: #fff; }
+nav span { font-size: 16px; }
 
 #sidenav {
 	height: 100%;
@@ -62,3 +67,15 @@ a:focus {
 	position: absolute;
 	border-bottom: none;
 }
+/* End of Navigation */
+
+/* Footer */
+footer {
+	height: 56px;
+	line-height: 56px;
+	font-size: small;
+	text-align: center;
+	background-color: #22262a!important;
+	color: white;
+}
+/* End of Footer */

@@ -2,21 +2,30 @@ import React, { Component } from 'react'
 import { Route, Link, NavLink } from "react-router-dom"
 import Moment from 'react-moment'
 import _ from 'lodash'
+import Modal from 'react-bootstrap/Modal'
 
-import { galleryService } from './../../common/api.service'
+import store from './../../store'
+import { startLoading, stopLoading, editPhoto, cancelEditPhoto, setStatePhotos } from './../../actions';
+
+import { galleryService, galleryDetailService } from './../../common/api.service'
 
 // Components
 import GalleryDetailPhotos from './Photos'
 import GalleryDetailVideos from './Videos'
+import './styles.css'
 
 class Gallery extends Component {
+	galleryId = this.props.match.params.id;
+
 	constructor (props) {
-		super(props)
+		super(props);
 		this.state = {
 			id: this.props.match.params.id,
 			gallery: {
+				destination: '',
 				participant: []
-			}
+			},
+			isModalShow: false
 		}
 	}
 
@@ -30,20 +39,73 @@ class Gallery extends Component {
 		})
 	}
 
+	getPhotos = () => {
+		galleryDetailService.getByGalleryID(this.galleryId)
+		.then((res) => {
+			store.dispatch(setStatePhotos(res.data));
+		})
+	}
+
 	componentDidMount () {
 		this.galleryList()
 	}
 
+	handleEdit = () => {
+		store.dispatch(editPhoto())
+	}
+
+	handleCloseEdit = () => {
+		store.dispatch(cancelEditPhoto())
+	}
+
+	handleShow = () => { this.setState({ isModalShow: true }) }
+	handleClose = () => { this.setState({ isModalShow: false }) }
+
+	handleDelete = () => {
+		this.handleClose();
+		store.dispatch(startLoading("Deleting Photos . . ."));
+		let images = store.getState().gallery.selectedPhoto;
+
+		const payload = {
+			destination: this.state.gallery.destination,
+			images: images
+		}
+
+		galleryDetailService.delete(payload)
+		.then(() => { 
+			store.dispatch(cancelEditPhoto());
+			this.getPhotos();
+		})
+		.finally(() => { store.dispatch(stopLoading()) })
+	}
+
+	updateThumbnail = () => {
+		store.dispatch(startLoading("Update Thumbnail . . ."));
+		const payload = {
+			image: store.getState().gallery.selectedPhoto[0]
+		}
+
+		galleryService.updateThumbnail(this.galleryId, payload)
+		.then(() => { this.galleryList() })
+		.finally(() => { 
+			store.dispatch(stopLoading());
+			store.dispatch(cancelEditPhoto());
+		 })
+	}
+
 	render () {
 		const { match } = this.props
-		let { gallery } = this.state
+
+		let { gallery, isModalShow } = this.state
+		let isEdit = store.getState().gallery.isEdit;
+		let allowSetAsThumbnail = store.getState().gallery.allowSetAsThumbnail;
 
 		return (
 			<div>
-				<div id="detail" className="pt-5 p-content">
-					<ul className="breadcrumb">
-						<li><Link to ='/gallery'>&#60; Gallery Detail</Link></li>
-						<li>Pulau Kotok</li>
+				<div id="detail" className="pt-3 p-content">
+					<ul className="breadcrumb pb-0">
+						<li><Link to ='/gallery'><i className="fa fa-angle-left"></i> Gallery Detail</Link></li>
+						<li><i className="fa fa-angle-left"></i> {gallery.destination}</li>
 					</ul>
 					<hr/>
 					<div className="row">
@@ -53,11 +115,11 @@ class Gallery extends Component {
 					</div>
 					<div className="row">
 						<div className="col-5">
-							<img src="https://www.jejakpiknik.com/wp-content/uploads/2017/07/pulaukotok1-630x380.jpg" className="img-thumbnail" alt="" width="100%"/>
+							<img src={`http://localhost:3001/` + gallery.destination + `/original/` + gallery.thumbnail} className="img-detail img-thumbnail" alt="" width="100%"/>
 						</div>
 						<div className="col-7">
 							<h6>Date: <b><Moment format="DD MMMM YYYY">{gallery.date}</Moment></b></h6>
-							<h6>Participant:</h6>
+							<h6>Participant: ({this.state.gallery.participant.length})</h6>
 							<ul>
 								{gallery.participant.map((participant, key) => 
 									<li key={key}>{participant}</li>
@@ -69,7 +131,7 @@ class Gallery extends Component {
 					</div>
 					<hr/>
 					<div className="row">
-						<div className="col-8 offset-2">
+						<div className="col-6">
 							<ul className="nav nav-tabs nav-justified">
 								<li className="nav-item">
 									<NavLink to={`${match.url}/photos`} activeClassName="active">
@@ -83,11 +145,44 @@ class Gallery extends Component {
 								</li>
 							</ul>
 						</div>
+						<div className="col-5 offset-1">
+							<div className="row">
+								<div className="col-6 p-1">
+									{ isEdit && <button className="btn btn-primary btn-block" disabled={!allowSetAsThumbnail} onClick={this.updateThumbnail} >Set as Thumbnail</button> }
+								</div>
+								<div className="col-3 p-1">
+									{ isEdit && <button className="btn btn-danger btn-block" onClick={this.handleShow}>Delete</button> }
+									</div>
+								<div className="col-3 p-1">
+									{ !isEdit && <button className="btn btn-success btn-block" onClick={this.handleEdit}>Edit</button> }
+									{ isEdit && <button className="btn btn-secondary btn-block" onClick={this.handleCloseEdit}>Cancel</button> }
+								</div>
+								<div className="col-3 p-1">
+								</div>
+							</div>
+						</div>
 					</div>
 					<br/>
 			        <Route path={`${match.path}/photos`} component={GalleryDetailPhotos} />
 			        <Route path={`${match.path}/videos`} component={GalleryDetailVideos} />
 				</div>
+
+				<Modal show={isModalShow} onHide={this.handleClose} backdrop="static" keyboard={false}>
+					<Modal.Header closeButton>
+						<Modal.Title>Delete Photos</Modal.Title>
+					</Modal.Header>
+					
+					<Modal.Body>
+						<h6 className="text-center">Are you sure to delete selected photos?</h6>
+						<div className="row text-center">
+							<div className="col">
+								<button className="btn btn-danger m-1" onClick={this.handleDelete}>Delete</button>
+								<button className="btn btn-secondary m-1" onClick={this.handleClose}>Cancel</button>
+							</div>
+						</div>
+					</Modal.Body>
+      			</Modal>
+
 			</div>
 		)
 	}

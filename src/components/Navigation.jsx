@@ -8,29 +8,39 @@ class Navigation extends Component {
 	render() {
 		return (
 			<nav id="nav" className="navbar navbar-expand-sm p-content">
-				<div className="col-4">
-				<span className="navbar-brand text-white">Penikmat JalanJalan <span className="text-danger">Archives</span></span>
+				<div className="col-3">
+				<span className="navbar-brand text-white">Personal Travel <span className="text-danger">Archives</span></span>
 				</div>
-				<div className="col-4 text-center">
+				<div className="col-6 text-center">
 					<ul className="navbar-nav ml-auto">
 						<li className="nav-item pull-left pl-2 pr-2">
 							<NavLink to ='/home' activeClassName="active">
-								<span className="nav-link">Home</span>
+								<span className="nav-link text-capitalize">home</span>
 							</NavLink>
 						</li>
 						<li className="nav-item pull-left pl-2 pr-2">
 							<NavLink to ='/gallery' activeClassName="active">
-								<span className="nav-link">Gallery</span>
+								<span className="nav-link text-capitalize">gallery</span>
 							</NavLink>
 						</li>
 						<li className="nav-item pull-left pl-2 pr-2">
-							<NavLink to ='/contact' activeClassName="active">
-								<span className="nav-link">Contact</span>
+							<NavLink to ='/travel' activeClassName="active">
+								<span className="nav-link text-capitalize">travel</span>
+							</NavLink>
+						</li>
+						<li className="nav-item pull-left pl-2 pr-2">
+							<NavLink to ='/story' activeClassName="active">
+								<span className="nav-link text-capitalize">story</span>
+							</NavLink>
+						</li>
+						<li className="nav-item pull-left pl-2 pr-2">
+							<NavLink to ='/gear' activeClassName="active">
+								<span className="nav-link text-capitalize">gear</span>
 							</NavLink>
 						</li>
 					</ul>
 				</div>
-				<div className="col-4">
+				<div className="col-3">
 					<ul className="navbar-nav pull-right">
 						<li className="nav-item pull-left pl-1 pr-1 lead">
 							<NavLink to ='/gallery' activeClassName="active">

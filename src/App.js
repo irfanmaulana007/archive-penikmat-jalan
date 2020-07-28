@@ -14,6 +14,7 @@ import Home from './views/Home'
 import NotFound from './views/NotFound'
 import Gallery from './views/gallery/Gallery'
 import GalleryDetail from './views/gallery/Detail'
+import GalleryCreate from './views/gallery/create/GalleryCreate'
 import Login from './views/admin/Login'
 
 import Navigation from './components/Navigation'
@@ -46,6 +47,7 @@ class App extends Component {
 							<Route exact path="/home" component={Home} />
 							<Route exact path="/login" component={Login} />
 							<Route exact path="/gallery" component={Gallery} />
+							<Route exact path="/gallery-create" component={GalleryCreate} />
 							<Route path="/gallery/:id" component={GalleryDetail} />
 							<Route path="*" component={NotFound} />
 						</Switch>
