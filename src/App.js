@@ -12,9 +12,22 @@ import Loaders from './components/utils/Loaders'
 // Components
 import Home from './views/Home'
 import NotFound from './views/NotFound'
+
+// Gallery
 import Gallery from './views/gallery/Gallery'
 import GalleryDetail from './views/gallery/Detail'
 import GalleryCreate from './views/gallery/create/GalleryCreate'
+
+// Bucket List
+import BucketList from './views/bucketList/BucketList'
+import BucketListDetail from './views/bucketList/Detail'
+import BucketListCreate from './views/bucketList/create/BucketListCreate'
+import BucketListAddDetail from './views/bucketList/create/AddDetail'
+
+// Cateogry
+import Category from './views/category/Category'
+import CategoryCreate from './views/category/CategoryCreate'
+
 import Login from './views/admin/Login'
 
 import Navigation from './components/Navigation'
@@ -45,10 +58,26 @@ class App extends Component {
 						<Switch>
 							<Redirect exact from="/" to="/home" />
 							<Route exact path="/home" component={Home} />
+							
 							<Route exact path="/login" component={Login} />
+
+							{/* Gallery */}
 							<Route exact path="/gallery" component={Gallery} />
 							<Route exact path="/gallery-create" component={GalleryCreate} />
 							<Route path="/gallery/:id" component={GalleryDetail} />
+
+							{/* Bucket List */}
+							<Route exact path="/bucket-list" component={BucketList} />
+							<Route exact path="/bucket-list-create" component={BucketListCreate} />
+							<Route path="/bucket-list/:id" component={BucketListDetail} />
+							<Route path="/bucket-list-detail/:id/add" component={BucketListAddDetail} />
+							<Route path="/bucket-list-detail/:id/update/:bucketListDetailId" component={BucketListAddDetail} />
+
+							{/* Category */}
+							<Route exact path="/category" component={Category} />
+							<Route exact path="/category/update/:id" component={CategoryCreate} />
+							<Route exact path="/category-create" component={CategoryCreate} />
+
 							<Route path="*" component={NotFound} />
 						</Switch>
 					</div>

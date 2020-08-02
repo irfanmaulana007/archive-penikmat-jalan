@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { API_URL } from './config'
-import _ from 'lodash'
 
 var token = localStorage.getItem('token')
 
@@ -55,6 +54,11 @@ export const galleryService = {
 			.post('gallery/', payload)
 	},
     
+	update (id, payload) {
+		return apiService
+			.put('gallery/' + id, payload)
+	},
+    
 	updateThumbnail (id, payload) {
 		return apiService
 			.put('gallery/update-thumbnail/' + id, payload)
@@ -82,7 +86,71 @@ export const categoryService = {
 	get () {
 		return apiService
 			.get('category')
-    }
+    },
+
+	getById (id) {
+		return apiService
+			.get('category/' + id, )
+	},
+
+	create (payload) {
+		return apiService
+			.post('category', payload)
+	},
+
+	update (id, payload) {
+		return apiService
+			.put('category/' + id, payload)
+	},
+
+	delete (id) {
+		return apiService
+			.delete('category/' + id)
+	}
+}
+
+export const bucketListService = {
+	get () {
+		return apiService
+			.get('bucket-list')
+    },
+    
+	detail (id) {
+		return apiService
+			.get('bucket-list/' + id)
+	},
+
+	create (payload) {
+		return apiService
+			.post('bucket-list/', payload)
+	},
+}
+
+export const bucketListDetailService = {
+	getByBucketListID (id) {
+		return apiService
+			.get('bucket-list/' + id + '/detail')
+	},
+
+	getByID (id) {
+		return apiService
+			.get('bucket-list-detail/' + id)
+	},
+
+	create (payload) {
+		return apiService
+			.post('bucket-list-detail/', payload)
+	},
+
+	update (id, payload) {
+		return apiService
+			.put('bucket-list-detail/' + id, payload)
+	},
+
+	delete (id) {
+		return apiService
+			.delete('bucket-list-detail/' + id)
+	}
 }
 
 export const authService = {

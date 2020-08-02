@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import './styles.css'
 
@@ -24,8 +24,8 @@ class Navigation extends Component {
 							</NavLink>
 						</li>
 						<li className="nav-item pull-left pl-2 pr-2">
-							<NavLink to ='/travel' activeClassName="active">
-								<span className="nav-link text-capitalize">travel</span>
+							<NavLink to ='/bucket-list' activeClassName="active">
+								<span className="nav-link text-capitalize">bucket list</span>
 							</NavLink>
 						</li>
 						<li className="nav-item pull-left pl-2 pr-2">
