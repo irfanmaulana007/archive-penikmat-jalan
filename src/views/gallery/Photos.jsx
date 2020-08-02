@@ -1,17 +1,13 @@
-import React, { Component } from 'react'
-import Lightbox from 'react-image-lightbox'
-import 'react-image-lightbox/style.css'
-import _ from 'lodash'
-import Modal from 'react-bootstrap/Modal'
-import { Button } from 'react-bootstrap'
+import React, { Component } from 'react';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
 
-import store from './../../store'
+import store from './../../store';
 import { startLoading, stopLoading, selectPhoto, allowSetAsThumbnail, setStatePhotos } from './../../actions';
 
-import { galleryService, galleryDetailService } from './../../common/api.service'
-import FormGroup from './../../components/utils/FormGroup'
-
-
+import { galleryService, galleryDetailService } from './../../common/api.service';
 
 class Photos extends Component {
 	galleryId = this.props.match.params.id;
@@ -116,7 +112,7 @@ class Photos extends Component {
 
 		return (
 			<div>
-				<div className="row">
+				<div className="row moment-photos">
 					{photos.map((values, key) =>
 						<div key={key} className="col-2 mb-2 pl-1 pr-1">
 							<img src={`http://localhost:3001/` + destination + `/small/` + values.image} alt="" className="img-thumbnail img-hover" width="100%" onClick={() => this.setState({ isOpen: true, photoIndex: key })} />
@@ -124,7 +120,7 @@ class Photos extends Component {
 						</div>	
 					)}
 					
-					<div className="col-2 mb-2 pl-1 pr-1 img-thumbnail img-hover" onClick={this.handleShow}>
+					<div className="col-2 mb-2 pl-1 pr-1 img-thumbnail card-body img-hover" onClick={this.handleShow}>
 						<center>
 							<img src="http://localhost:3001/icon/add.png" alt="" className="photo-small" height="100" />
 						</center>
@@ -167,7 +163,7 @@ class Photos extends Component {
 					</Modal.Header>
 					
 					<Modal.Body>
-						<FormGroup name="moments" id="input-multiple" refs={input => this.inputMultiple = input} class="d-none" type="file" multiple="multiple" onChange={this.handleMultiplePhotos} />
+						<input name="moments" id="input-multiple" ref={input => this.inputMultiple = input} class="d-none" type="file" multiple="multiple" onChange={this.handleMultiplePhotos} />
                         <div className="input-multiple mb-2" onClick={this.handleUploadMoments}>
                             <div className="text text-relative">
                                 Click here to upload moments.

@@ -25,7 +25,8 @@ class GalleryCreate extends Component {
         super(props);
         this.state = {
             ...initState,
-            files: []
+            files: [],
+            redirect: false
         }
     }
 
@@ -70,17 +71,21 @@ class GalleryCreate extends Component {
         galleryService.create(this.state)
         .finally(() => { 
             store.dispatch(stopLoading())
-  
-            return <Redirect to='/gallery'  />
-  
+            this.setState({ redirect: true })
         })
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+          return <Redirect to='/gallery' />
+        }
     }
 
     render () {
 
         return (
-
             <div className="container mt-5">
+                {this.renderRedirect()}
                 <ul className="breadcrumb pb-0">
                     <li><Link to ='/gallery'><i className="fa fa-angle-left"></i> Gallery</Link></li>
                     <li><i className="fa fa-angle-left"></i> Create Moment</li>
@@ -92,7 +97,7 @@ class GalleryCreate extends Component {
                     <div className="col-8 offset-2">
                         <FormGroup name="destination" type="text" defaultValue={this.state.destination} onChange={this.handleInput} />
                         
-                        <select name="category" className="form-control mb-2" onChange={this.handleInput}>
+                        <select name="category_id" className="form-control mb-2 text-capitalize" onChange={this.handleInput}>
                             <option value="0">- SELECT -</option>
                             {this.categoryList.map((values, key) =>
                                 <option key={key} value={values.id}>{values.name}</option>
@@ -103,9 +108,9 @@ class GalleryCreate extends Component {
                         
                         <FormGroup name="participant" type="text" defaultValue={this.state.participant} onChange={this.handleInput} />
                         
-                        <FormGroup name="description" type="textarea" rows="4" defaultValue={this.state.description} onChange={this.handleInput} />
+                        <FormGroup name="description" type="textarea" rows="6" defaultValue={this.state.description} onChange={this.handleInput} />
                         
-                        <FormGroup name="moments" id="input-multiple" refs={input => this.inputMultiple = input} class="d-none" type="file" multiple="multiple" onChange={this.handleMultiplePhotos} />
+                        <input name="moments" id="input-multiple" ref={input => this.inputMultiple = input} className="d-none" type="file" multiple="multiple" onChange={this.handleMultiplePhotos} />
                         <div className="input-multiple mb-2" onClick={this.handleUploadMoments}>
                             <div className="text text-relative">
                                 Click here to upload moments.

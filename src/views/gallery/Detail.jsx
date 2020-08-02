@@ -1,18 +1,28 @@
-import React, { Component } from 'react'
-import { Route, Link, NavLink } from "react-router-dom"
-import Moment from 'react-moment'
-import _ from 'lodash'
-import Modal from 'react-bootstrap/Modal'
+import React, { Component } from 'react';
+import { Route, Link, NavLink } from "react-router-dom";
+import Moment from 'react-moment';
+import _ from 'lodash';
+import Modal from 'react-bootstrap/Modal';
 
-import store from './../../store'
+import store from './../../store';
 import { startLoading, stopLoading, editPhoto, cancelEditPhoto, setStatePhotos } from './../../actions';
 
-import { galleryService, galleryDetailService } from './../../common/api.service'
+import { galleryService, galleryDetailService } from './../../common/api.service';
+import FormGroup from './../../components/utils/FormGroup';
 
 // Components
-import GalleryDetailPhotos from './Photos'
-import GalleryDetailVideos from './Videos'
-import './styles.css'
+import GalleryDetailPhotos from './Photos';
+import GalleryDetailVideos from './Videos';
+import './styles.css';
+
+const initState = {
+	gallery: {
+		destination: '',
+		participant: [],
+		description: ''
+	},
+	isModalShow: false
+}
 
 class Gallery extends Component {
 	galleryId = this.props.match.params.id;
@@ -21,22 +31,20 @@ class Gallery extends Component {
 		super(props);
 		this.state = {
 			id: this.props.match.params.id,
-			gallery: {
-				destination: '',
-				participant: []
-			},
-			isModalShow: false
-		}
+			...initState
+		}	
 	}
 
 	galleryList = () => {
+		store.dispatch(startLoading('Load Gallery . . .'))
 		galleryService.detail(this.state.id)
 		.then((res) => {
 			// convert participant of gallery into array with commas ',' separator
 			const gallery = res.data
-			gallery.participant = _.split(gallery.participant, ',')
+			gallery.participant = _.sortBy(_.split(gallery.participant.trim(), ','))
 			this.setState({ gallery: gallery })
 		})
+		.finally(() => { store.dispatch(stopLoading()) })
 	}
 
 	getPhotos = () => {
@@ -56,6 +64,13 @@ class Gallery extends Component {
 
 	handleCloseEdit = () => {
 		store.dispatch(cancelEditPhoto())
+	}
+
+	handleInput = (e) => {
+		this.setState({ 
+			...this.state,
+			gallery: { ...this.state.gallery, [e.target.name]: e.target.value }
+		})
 	}
 
 	handleShow = () => { this.setState({ isModalShow: true }) }
@@ -88,8 +103,24 @@ class Gallery extends Component {
 		galleryService.updateThumbnail(this.galleryId, payload)
 		.then(() => { this.galleryList() })
 		.finally(() => { 
-			store.dispatch(stopLoading());
 			store.dispatch(cancelEditPhoto());
+			store.dispatch(stopLoading());
+		 })
+	}
+
+	updateGallery = () => {
+		this.setState({ ...initState, initState })
+		store.dispatch(startLoading("Update Gallery . . ."));
+		let payload = this.state.gallery
+		payload.participant = payload.participant.toString();
+
+		galleryService.update(this.galleryId, payload)
+		.then(() => { 
+			this.galleryList()
+		})
+		.finally(() => { 
+			store.dispatch(cancelEditPhoto());
+			store.dispatch(stopLoading());
 		 })
 	}
 
@@ -115,17 +146,25 @@ class Gallery extends Component {
 					</div>
 					<div className="row">
 						<div className="col-5">
-							<img src={`http://localhost:3001/` + gallery.destination + `/original/` + gallery.thumbnail} className="img-detail img-thumbnail" alt="" width="100%"/>
+							<img src={`http://localhost:3001/` + gallery.destination + `/original/` + gallery.thumbnail} className="img-detail" alt="" width="100%"/>
 						</div>
 						<div className="col-7">
 							<h6>Date: <b><Moment format="DD MMMM YYYY">{gallery.date}</Moment></b></h6>
-							<h6>Participant: ({this.state.gallery.participant.length})</h6>
-							<ul>
+							<h6>Participant: ({gallery.participant.length})</h6>
+							<ul className="text-capitalize">
 								{gallery.participant.map((participant, key) => 
 									<li key={key}>{participant}</li>
 								)}
 							</ul>
-							<p>{gallery.description}</p>
+							{ !isEdit && <p>{gallery.description}</p> }
+							{ isEdit && <FormGroup name="description" type="textarea" rows="6" value={gallery.description} onChange={this.handleInput} /> }
+
+							<div className="row mt-5">
+								<div className="col text-center">
+									{ isEdit && <button className="btn btn-success btn-wide" onClick={this.updateGallery}>Save</button> }
+								</div>
+							</div>
+
 
 						</div>
 					</div>

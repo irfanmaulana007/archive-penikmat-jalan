@@ -20,7 +20,7 @@ class Gallery extends Component {
 
 	getGalleryList = () => {
 		galleryService.get()
-		.then((res) => { this.setState({ galleries: res.data }) })
+		.then((res) => { this.setState({ galleries: _.orderBy(res.data, 'date', 'desc') }) })
 		.finally(() => { store.dispatch(stopLoading()) })
 	}
 
@@ -85,13 +85,12 @@ class Gallery extends Component {
 						{this.state.galleries.map((values, key) =>
 							<div key={key} className="col-4 mb-4">
 								<div className="card">
-									<div className="card-body p-2">
-										<img src={`http://localhost:3001/` + values.destination + `/small/` + values.thumbnail} alt="" width="100%"/>
-										{/* <img src={values.thumbnail} alt="" width="100%"/> */}
+									<div className="card-body">
+										<img className="img-thumbnail" src={`http://localhost:3001/` + values.destination + `/small/` + values.thumbnail} alt="" width="100%"/>
 										<div className="overlay">
 											<div className="text text-absolute text-white">
 												{values.destination} <br/>
-												<small className="float-right font-weight-bold"><Moment format="DD MMMM YYYY">{values.date}</Moment></small>
+												<small className="font-weight-bold"><Moment format="DD MMMM YYYY">{values.date}</Moment></small>
 											</div>
 										</div>
 										<Link to ={`/gallery/` + values.id + `/photos`} className="card-link stretched-link"></Link>
@@ -101,9 +100,8 @@ class Gallery extends Component {
 						)}
 						<div className="col-4 mb-4">
 							<div className="card">
-								<div className="card-body p-2">
+								<div className="card-body img-thumbnail">
 									<center><img src='http://localhost:3001/icon/add.png' alt="" /></center>
-									{/* <img src={values.thumbnail} alt="" width="100%"/> */}
 									<div className="overlay">
 										<div className="text text-absolute text-white">
 											Add Moment <br/>
