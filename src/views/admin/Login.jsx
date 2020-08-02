@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import Navigation from '../../components/Navigation'
-
 import { Redirect } from 'react-router-dom';
 import store from './../../store'
 import { authService } from './../../common/api.service.js'

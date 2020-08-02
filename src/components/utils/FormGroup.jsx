@@ -1,33 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class FormGroup extends Component {
-	render () {
-		return (
-			<div className="form-group">
-				<label htmlFor={this.props.name} className="text-capitalize">{this.props.name}</label>
+const FormGroup = (props) => {
+	let inputElement = null
 
-				{this.props.type === "textarea" ?
-					<textarea 
-						className="form-control" 
-						name={this.props.name} 
-						rows={this.props.rows} 
-						onChange={this.props.onChange}>
-							{this.props.value}
-					</textarea>
-				:
-					<input 
-						className={`form-control ` + this.props.class}
-						type={this.props.type} 
-						ref={this.props.refs}
-						name={this.props.name}
-						value={this.props.value}
-						placeholder={this.props.placeholder}
-						multiple={this.props.multiple}
-						onChange={this.props.onChange} />
-				} 
-			</div>
-		)
+	switch (props.type) {
+		case ('file'):
+			inputElement = <input className={`form-control ` + props.className} {...props} />
+			break
+
+		case ('textarea'):
+			inputElement = <textarea className={`form-control ` + props.className} {...props} />
+			break
+
+		default:
+			inputElement = <input className={`form-control ` + props.className} {...props} />
 	}
+
+	return (
+		<div>
+			<div className="form-group">
+				<label htmlFor={props.name} className="text-capitalize">{props.name}</label>
+				{inputElement}
+			</div>
+		</div>
+	)
+	
 }
 
 export default FormGroup
