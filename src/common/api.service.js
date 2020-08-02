@@ -109,6 +109,38 @@ export const categoryService = {
 	}
 }
 
+export const culinaryService = {
+	get () {
+		return apiService
+			.get('culinary')
+    },
+    
+	detail (id) {
+		return apiService
+			.get('culinary/' + id)
+	},
+
+	getByBucketListId (id) {
+		return apiService
+			.get('culinary/bucket-list/' + id, )
+	},
+
+	create (payload) {
+		return apiService
+			.post('culinary', payload)
+	},
+
+	update (id, payload) {
+		return apiService
+			.put('culinary/' + id, payload)
+	},
+
+	delete (id) {
+		return apiService
+			.delete('culinary/' + id)
+	}
+}
+
 export const bucketListService = {
 	get () {
 		return apiService

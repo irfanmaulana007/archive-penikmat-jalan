@@ -71,7 +71,7 @@ class App extends Component {
 							<Route exact path="/bucket-list-create" component={BucketListCreate} />
 							<Route path="/bucket-list/:id" component={BucketListDetail} />
 							<Route path="/bucket-list-detail/:id/add" component={BucketListAddDetail} />
-							<Route path="/bucket-list-detail/:id/update/:bucketListDetailId" component={BucketListAddDetail} />
+							<Route path="/bucket-list-detail/:id/update/:detailId" component={BucketListAddDetail} />
 
 							{/* Category */}
 							<Route exact path="/category" component={Category} />
