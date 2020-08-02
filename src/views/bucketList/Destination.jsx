@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import { Link } from "react-router-dom"
+import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import NumberFormat from 'react-number-format';
 
-import Modal from 'react-bootstrap/Modal'
+import _ from 'lodash';
+import Modal from 'react-bootstrap/Modal';
 
-import store from './../../store'
+import store from './../../store';
 import { startLoading, stopLoading } from './../../actions';
 
 import { bucketListDetailService } from './../../common/api.service';
@@ -31,7 +32,7 @@ class Destination extends Component {
 	getBucketListDetails = () => {
 		store.dispatch(startLoading("get Bucket List Details . . ."))
 		bucketListDetailService.getByBucketListID(this.bucketListId)
-		.then((res) => { this.setState({ bucketListDetails: res.data }) })
+		.then((res) => { this.setState({ bucketListDetails: _.sortBy(res.data, 'destination') }) })
 		.finally(() => { store.dispatch(stopLoading()) })
 	}
 
@@ -65,7 +66,7 @@ class Destination extends Component {
 						<div className="col">
 							<div className="row">
 								<div className="col-6">
-									<h4>{values.destination}</h4>
+									<h4 className="text-capitalize">{values.destination}</h4>
 								</div>
 								<div className="col-6 text-right">
 									<Link to={`/bucket-list-detail/` + this.bucketListId + `/update/` + values.id + `/destination`}><button className="btn btn-success btn-sm ml-1 mr-1">Edit</button></Link>
@@ -75,7 +76,7 @@ class Destination extends Component {
 
 							<div className="row">
 								<div className="col-6">
-									<h6>Category: <b>{values.category}</b></h6>
+									<h6>Category: <b>{values.category.name}</b></h6>
 								</div>
 								<div className="col-6 text-right">
 									<h6>Price: <b><NumberFormat value={values.price} displayType={'text'} thousandSeparator={"."} decimalSeparator={","}  prefix={'Rp '} /></b></h6>
@@ -87,7 +88,7 @@ class Destination extends Component {
 									<p className="mb-1">{values.detail}</p>
 								</div>
 							</div>
-							
+
 							<div className="row">
 								<div className="col">
 									<p>Location: <b>{values.location}</b></p>
@@ -110,7 +111,7 @@ class Destination extends Component {
 					</Modal.Header>
 					
 					<Modal.Body>
-						<h5 className="text-center mb-3">Are you sure to delete category <b>{selectedDetail.destination}</b> ? </h5>
+						<h5 className="text-center mb-3">Are you sure to delete destination <b>{selectedDetail.destination}</b> ? </h5>
 
 						<div className="row">
 							<div className="col text-center">

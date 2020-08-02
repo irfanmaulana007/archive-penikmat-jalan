@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
-import { Route, Link, NavLink } from "react-router-dom"
-// import Moment from 'react-moment'
-// import _ from 'lodash'
-// import Modal from 'react-bootstrap/Modal'
+import React, { Component } from 'react';
+import { Route, Link, NavLink } from "react-router-dom";
+// import Moment from 'react-moment';
+// import _ from 'lodash';
+// import Modal from 'react-bootstrap/Modal';
 import NumberFormat from 'react-number-format';
 
 import store from './../../store'
 import { startLoading, stopLoading } from './../../actions';
 
-import { bucketListService } from './../../common/api.service'
-// import FormGroup from './../../components/utils/FormGroup'
+import { bucketListService } from './../../common/api.service';
+// import FormGroup from './../../components/utils/FormGroup';
 
 // Components
-import BucketListDetailDestination from './Destination'
-import BucketListDetailCulinary from './Culinary'
-import './styles.css'
+import BucketListDetailDestination from './Destination';
+import BucketListDetailCulinary from './Culinary';
+import './styles.css';
 
 let initState = {
 	bucketList: {
@@ -61,6 +61,7 @@ class Gallery extends Component {
 					<hr/>
 					<div className="row">
 						<div className="col">
+							<img className="float-left border mr-2" src={`http://localhost:3001/icon/flags/` + bucketList.country + `.jpg`} alt="" width="50px" heidht="35px" />
 							<h3 className="float-left text-capitalize">{bucketList.destination} <span className="small"><Link to={`/bucket-list-detail/` + this.bucketListId + `/add/destination`}>Add</Link></span> </h3>
 							<h3 className="float-right"><NumberFormat value={bucketList.budget} displayType={'text'} thousandSeparator={"."} decimalSeparator={","} prefix={'Rp '} /></h3>
 						</div>

@@ -13,7 +13,7 @@ const FormGroup = (props) => {
 			break
 
 		default:
-			inputElement = <input className={`form-control ` + props.className} {...props} />
+			inputElement = <input className={`form-control ` + props.className} {...props} autoComplete="off" />
 	}
 
 	return (

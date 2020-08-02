@@ -20,7 +20,7 @@ let initState = {
 
 class AddDestination extends Component {
 	bucketListId = this.props.match.params.id;
-	bucketListDetailId = this.props.match.params.bucketListDetailId;
+	bucketListDetailId = this.props.match.params.detailId;
 	categoryList = [];
     
     constructor (props) {

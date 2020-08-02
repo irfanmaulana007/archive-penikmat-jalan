@@ -1,4 +1,8 @@
-#banner {
-    background-color: black;
-    height: 500px;
+img.img-flag {
+    height: 40px;
+    width: 60px;
+    border: 1px solid #ccc;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
